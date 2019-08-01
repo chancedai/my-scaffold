@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 const glob = require('glob');
 const path = require('path');
 const {
@@ -28,7 +29,7 @@ function getEntry() {
     return entry;
 };
 
-module.exports = {
+const dev = {
     mode: 'development',
 
     // 多入口
@@ -36,7 +37,7 @@ module.exports = {
     plugins: plugins,
     devServer: {
         contentBase: distPath,
-        port: 8888,
+        port: 8000,
         writeToDisk: true
     },
     module: {
@@ -71,4 +72,16 @@ module.exports = {
 
         path: distPath,
     },
+};
+
+const pro = merge(dev,{
+    mode: 'production',
+    output: {
+        publicPath: '//e.sinaimg.cn/ssfe/d54ff8fa-06c1-43d6-a735-86c9985f4fd2/'
+    }
+});
+delete pro.devServer;
+module.exports = {
+    dev,
+    pro
 }
